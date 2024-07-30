@@ -127,7 +127,9 @@ export default function App() {
         const updatedCandidate = { ...candidate, votes: (candidate.votes || 0) + 1 }
         const fetchedCandidate = await client.models.Candidate.update(updatedCandidate)
 
-        setCandidates(candidates.map((c) => (c.id === candidate.id ? normalizeCandidate(fetchedCandidate.data as Candidate) : c)))
+        setCandidates(candidates.map((c) => (c.id === candidate.id
+          ? normalizeCandidate(candidates)(fetchedCandidate.data as Candidate) // Kill me, I'm a monster 🤢
+          : c)))
         setVoted(true)
 
         setAlert({
