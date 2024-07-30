@@ -14,7 +14,7 @@ import { Results } from './Results'
 const client = generateClient<Schema>()
 
 export default function App() {
-    const createOrUpdateCandidate = async (candidate: Omit<Candidate, 'id'>) => {
+  const createOrUpdateCandidate = async (candidate: Omit<Candidate, 'id'>) => {
     // Await random delay to avoid throttling
     await new Promise((resolve) => setTimeout(resolve, Math.random() * 20000))
 
