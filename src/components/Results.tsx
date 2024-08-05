@@ -21,10 +21,9 @@ const resolvePercentages = (candidates: Candidate[]) => {
 }
 
 const resolveColor = (percentage = 0) => {
-  if (percentage < 10) return 'error'
-  if (percentage < 20) return 'warning'
-  if (percentage < 30) return 'info'
-  if (percentage < 40) return 'primary'
+  if (percentage < 15) return 'error'
+  if (percentage < 30) return 'warning'
+  if (percentage < 45) return 'primary'
   return 'success'
 }
 
