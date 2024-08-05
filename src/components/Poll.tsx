@@ -1,5 +1,5 @@
-import { FormControl, Box, RadioGroup, FormControlLabel, Radio, Grid, Avatar, Typography, FormLabel } from "@mui/material"
-import type { Candidate } from "./types"
+import { FormControl, Box, RadioGroup, FormControlLabel, Radio, Grid, Avatar, Typography, FormLabel } from '@mui/material'
+import type { Candidate } from '../types'
 
 export type PollProps = {
   candidates: Candidate[];
@@ -45,7 +45,6 @@ export function Poll(props: PollProps) {
             onChange={(event) => props.setSelectedCandidateId(event.target.value)}
           >
             {props.candidates
-              .filter((candidate) => candidate.vice)
               .map((candidate) => (
                 <FormControlLabel
                   key={candidate.id}

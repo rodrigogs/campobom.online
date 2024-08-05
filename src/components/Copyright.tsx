@@ -1,4 +1,4 @@
-import { Link, Typography } from "@mui/material"
+import { Link, Typography } from '@mui/material'
 
 export function Copyright() {
   return (

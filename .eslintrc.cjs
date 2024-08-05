@@ -19,5 +19,6 @@ module.exports = {
     'no-unused-expressions': 'error',
     semi: ['error', 'never'],
     indent: ['error', 2],
+    quotes: ['error', 'single'],
   },
 }

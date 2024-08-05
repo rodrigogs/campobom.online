@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import logoSvg from './assets/logo.svg'
+import logoSvg from '../assets/logo.svg'
 
 export function Header() {
   return (
@@ -13,7 +13,13 @@ export function Header() {
         py: 2,
       }}
     >
-      <img src={logoSvg} alt="Election Logo" style={{ width: '5em', height: 'auto', marginBottom: 5 }} />
+      <img
+        src={logoSvg}
+        alt="Election Logo" style={{
+          width: '5em',
+          height: 'auto',
+          marginBottom: 5,
+        }} />
 
       <Typography variant="h3" align="center">
         Campo Bom
@@ -24,7 +30,7 @@ export function Header() {
         sx={{
           opacity: 0.7,
           marginTop: -2,
-          marginBottom: 5,
+          marginBottom: 2,
           fontFamily: 'Roboto',
           paddingLeft: 16.5,
         }}

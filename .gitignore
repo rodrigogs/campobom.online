@@ -28,5 +28,6 @@ dist-ssr
 amplify_outputs*
 amplifyconfiguration*
 .env*
+!.env
 !.env.example
 .history
