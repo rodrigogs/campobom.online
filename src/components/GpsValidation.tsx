@@ -1,6 +1,6 @@
 import type React from 'react'
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogTitle, Button, CircularProgress, Box } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, Button, CircularProgress, Box, Container } from '@mui/material'
 import { Header } from './Header'
 import { GpsFixedOutlined, GpsOff, ReportProblem, ShareLocation } from '@mui/icons-material'
 import * as turf from '@turf/turf'
@@ -79,34 +79,38 @@ export const GpsValidation: React.FC<GpsValidationProps> = ({ onValidationResult
 
   return (
     <Dialog open={open} onClose={() => {}} fullScreen>
-      <Header />
-      <DialogTitle align='center'>Validação de Localização</DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '80vw', maxWidth: 400, textAlign: 'center' }}>
-          <p>Para votar, precisamos validar que você está dentro dos limites do município de Campo Bom.</p>
-          <p><strong>Fique tranquilo, sua localização será utilizada apenas para validar se você está apto a votar. Não armazenaremos sua localização.</strong></p>
-          <p>Ao clicar no botão abaixo, o seu dispositivo irá solicitar permissão para acessar sua localização. Você pode aceitar para continuar.</p>
+      <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Box sx={{ my: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
+          <Header />
+          <DialogTitle align='center'>Validação de Localização</DialogTitle>
+          <DialogContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '80vw', maxWidth: 400, textAlign: 'center' }}>
+              <p>Para votar, precisamos validar que você está dentro dos limites do município de Campo Bom.</p>
+              <p><strong>Fique tranquilo, sua localização será utilizada apenas para validar se você está apto a votar. Não armazenaremos sua localização.</strong></p>
+              <p>Ao clicar no botão abaixo, o seu dispositivo irá solicitar permissão para acessar sua localização. Você pode aceitar para continuar.</p>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={checkLocation}
+                disabled={loading || !!locationValidated}
+                sx={{ display: 'flex', alignItems: 'center' }}>
+                {loading
+                  ? <><CircularProgress color='info' size={24} sx={{ mr: 2 }} />Validando...</>
+                  : error
+                    ? <><ReportProblem color='error' sx={{ mr: 2 }} />Erro ao validar localização</>
+                    : locationValidated !== null
+                      ? locationValidated === true
+                        ? <><GpsFixedOutlined color='success' sx={{ mr: 2 }} />Localização validada</>
+                        : <><GpsOff color='warning' sx={{ mr: 2 }} />Localização inválida</>
+                      : <><ShareLocation color='info' sx={{ mr: 2 }} />Validar localização</>
+                }
+              </Button>
+            </Box>
+          </DialogContent>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={checkLocation}
-            disabled={loading || !!locationValidated}
-            sx={{ display: 'flex', alignItems: 'center' }}>
-            {loading
-              ? <><CircularProgress color='info' size={24} sx={{ mr: 2 }} />Validando...</>
-              : error
-                ? <><ReportProblem color='error' sx={{ mr: 2 }} />Erro ao validar localização</>
-                : locationValidated !== null
-                  ? locationValidated === true
-                    ? <><GpsFixedOutlined color='success' sx={{ mr: 2 }} />Localização validada</>
-                    : <><GpsOff color='warning' sx={{ mr: 2 }} />Localização inválida</>
-                  : <><ShareLocation color='info' sx={{ mr: 2 }} />Validar localização</>
-            }
-          </Button>
-        </Box>
-      </DialogContent>
+      </Container>
     </Dialog>
   )
 }
