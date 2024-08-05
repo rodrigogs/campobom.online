@@ -12,8 +12,11 @@ import { Loader } from './components/Loader'
 import { Results } from './components/Results'
 import { AppAlert, type AppAlertHandle } from './components/AppAlert'
 import { filterTitulars, normalizeCandidates } from './candidate-utils'
+import init from './init'
 
 const client = generateClient<Schema>()
+
+init(client)
 
 export default function App() {
   const [initialized, setInitialized] = useState(false)
