@@ -17,6 +17,7 @@
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.16.5",
     "@mui/material": "^5.16.5",
+    "@turf/turf": "^7.0.0",
     "aws-amplify": "^6.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

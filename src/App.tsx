@@ -10,7 +10,8 @@ import { Header } from './components/Header'
 import { Poll } from './components/Poll'
 import { Loader } from './components/Loader'
 import { Results } from './components/Results'
-import { AppAlert, type AppAlertHandle } from './components/AppAlert'
+import { type AlertType, AppAlert, type AppAlertHandle } from './components/AppAlert'
+import { GpsValidation } from './components/GpsValidation'
 import { filterTitulars, normalizeCandidates } from './candidate-utils'
 
 const client = generateClient<Schema>()
@@ -22,9 +23,10 @@ export default function App() {
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null)
   const [voting, setVoting] = useState(false)
   const [voted, setVoted] = useState(false)
+  const [locationValidated, setLocationValidated] = useState(false)
   const alertRef = useRef<AppAlertHandle>(null)
 
-  const showAlert = (type: 'info' | 'success' | 'error', text: string, timeout?: number) => {
+  const showAlert = (type: AlertType, text: string, timeout?: number) => {
     alertRef.current?.showAlert(type, text, null, true, timeout)
   }
 
@@ -79,6 +81,14 @@ export default function App() {
     }
   }
 
+  const handleGpsValidationResult = (isValid: boolean) => {
+    if (isValid) {
+      setLocationValidated(true)
+    } else {
+      showAlert('error', 'A localização não foi validada. Por favor, tente novamente quando estiver dentro dos limites do município.')
+    }
+  }
+
   useEffect(() => {
     initialize()
   })
@@ -95,16 +105,21 @@ export default function App() {
         )}
 
         {initialized && !voted && (
-          <><Poll setSelectedCandidateId={(id) => setSelectedCandidateId(id)} candidates={filterTitulars(candidates)} />
+          <>
+            <Poll
+              setSelectedCandidateId={(id) => setSelectedCandidateId(id)}
+              candidates={filterTitulars(candidates)}
+            />
             <Button
               variant="contained"
               color="primary"
               sx={{ marginTop: 2 }}
               onClick={handleVote}
-              disabled={!selectedCandidateId}
+              disabled={!selectedCandidateId || !locationValidated}
             >
               Votar
-            </Button></>
+            </Button>
+          </>
         )}
 
         {initialized && voted && (
@@ -114,6 +129,10 @@ export default function App() {
       <Box sx={{ py: 2 }}>
         <Copyright />
       </Box>
+
+      <GpsValidation
+        onValidationResult={handleGpsValidationResult}
+      />
     </Container>
   )
 }
