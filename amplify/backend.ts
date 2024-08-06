@@ -30,7 +30,7 @@ backend.castVote.resources.lambda.role?.attachInlinePolicy(
   ))
 
 const { cfnUserPool } = backend.auth.resources.cfnResources
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 4)
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 6)
 cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireLowercase', false)
 cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireNumbers', false)
 cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireSymbols', false)
