@@ -13,6 +13,7 @@ import { Results } from './components/Results'
 import { type AlertType, AppAlert, type AppAlertHandle } from './components/AppAlert'
 import { GpsValidation } from './components/GpsValidation'
 import { filterTitulars, normalizeCandidates } from './candidate-utils'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Authenticator, defaultDarkModeOverride, ThemeProvider } from '@aws-amplify/ui-react'
 import { I18n } from 'aws-amplify/utils'
 import { translations } from '@aws-amplify/ui-react'
@@ -62,6 +63,7 @@ export default function App() {
     setInitialized(true)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleVote = (user: AuthUser | undefined) => async () => {
     if (!user) return
     if (voting) return
@@ -142,7 +144,7 @@ export default function App() {
             }}
             colorMode='dark'
           >
-            <Authenticator
+            {/* <Authenticator
               initialState='signUp'
               formFields={{
                 signIn: {
@@ -166,40 +168,38 @@ export default function App() {
                 requireSpecialCharacters: false,
               }}
             >
-              {({ signOut, user }) => (
-                <div>
-                  <Button onClick={signOut} sx={{ alignSelf: 'flex-end' }} />
+              {({ signOut, user }) => ( */}
+            <div>
+              <AppAlert ref={alertRef} />
 
-                  <AppAlert ref={alertRef} />
-
-                  {loading && (
-                    <Loader />
-                  )}
-
-                  {initialized && !voted && (
-                    <>
-                      <Poll
-                        setSelectedCandidateId={(id) => setSelectedCandidateId(id)}
-                        candidates={filterTitulars(candidates)}
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ marginTop: 2 }}
-                        onClick={handleVote(user)}
-                        disabled={!selectedCandidateId || !locationValidated}
-                      >
-                  Votar
-                      </Button>
-                    </>
-                  )}
-
-                  {initialized && voted && (
-                    <Results />
-                  )}
-                </div>
+              {loading && (
+                <Loader />
               )}
-            </Authenticator>
+
+              {initialized && !voted && (
+                <>
+                  <Poll
+                    setSelectedCandidateId={(id) => setSelectedCandidateId(id)}
+                    candidates={filterTitulars(candidates)}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ marginTop: 2 }}
+                    // onClick={handleVote(user)}
+                    disabled={!selectedCandidateId || !locationValidated}
+                  >
+                  Votar
+                  </Button>
+                </>
+              )}
+
+              {initialized && voted && (
+                <Results />
+              )}
+            </div>
+            {/* )}
+            </Authenticator> */}
           </ThemeProvider>
         </Box>
       </Box>

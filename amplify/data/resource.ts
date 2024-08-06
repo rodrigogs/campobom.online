@@ -3,20 +3,17 @@ import { castVote } from '../functions/cast-vote'
 
 const schema = a.schema({
 
-  CandidateType: a
-    .enum([
-      'major',
-      'vice',
-      'null',
-      'blank',
-    ]),
-
   Candidate: a
     .model({
       name: a.string().required(),
       viceId: a.string(),
       photoUrl: a.string(),
-      type: a.ref('CandidateType').required(),
+      type: a.enum([
+        'major',
+        'vice',
+        'null',
+        'blank',
+      ]),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 
