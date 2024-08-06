@@ -19,7 +19,7 @@ const schema = a.schema({
       createdAt: a.datetime().required(),
     })
     .secondaryIndexes(index => [
-      // index('uniqueId'),
+      index('uniqueId'),
       index('candidateId'),
     ])
     .authorization((allow) => [allow.publicApiKey()]),

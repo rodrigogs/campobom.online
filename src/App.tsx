@@ -17,6 +17,7 @@ import { Authenticator, defaultDarkModeOverride, ThemeProvider } from '@aws-ampl
 import { I18n } from 'aws-amplify/utils'
 import { translations } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
+import type { AuthUser } from 'aws-amplify/auth'
 
 I18n.putVocabularies(translations)
 I18n.setLanguage('pt')
@@ -57,7 +58,8 @@ export default function App() {
     setInitialized(true)
   }
 
-  const handleVote = async () => {
+  const handleVote = (user: AuthUser | undefined) => async () => {
+    if (!user) return
     if (voting) return
     if (!selectedCandidateId) return
 
@@ -68,7 +70,7 @@ export default function App() {
         showAlert('info', 'Computando voto...')
 
         const succeed = await client.mutations.castVote({
-          uniqueId: `${Math.random()}`, // TODO: We want to implement phone number verification, so we can use the phone number as the uniqueId
+          uniqueId: user.userId,
           candidateId: candidate.id,
           metadata: JSON.stringify({
             // TODO: Add metadata?
@@ -170,7 +172,7 @@ export default function App() {
                         variant="contained"
                         color="primary"
                         sx={{ marginTop: 2 }}
-                        onClick={handleVote}
+                        onClick={handleVote(user)}
                         disabled={!selectedCandidateId || !locationValidated}
                       >
                   Votar
