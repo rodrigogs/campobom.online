@@ -9,10 +9,10 @@ const schema = a.schema({
       viceId: a.string(),
       photoUrl: a.string(),
       type: a.enum([
-        'major',
-        'vice',
-        'null',
-        'blank',
+        'MAYOR',
+        'VICE',
+        'NULL',
+        'BLANK',
       ]),
     })
     .authorization((allow) => [allow.publicApiKey()]),

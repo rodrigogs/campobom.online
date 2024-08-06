@@ -1,4 +1,4 @@
-export type CandidateType = 'major' | 'vice' | 'null' | 'blank';
+export type CandidateType = 'MAYOR' | 'VICE' | 'NULL' | 'BLANK';
 
 export type Candidate = {
   id: string;
