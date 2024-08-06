@@ -19,10 +19,14 @@ import { translations } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 import type { AuthUser } from 'aws-amplify/auth'
 
+import init from './init'
+
 I18n.putVocabularies(translations)
 I18n.setLanguage('pt')
 
 const client = generateClient<Schema>()
+
+init(client)
 
 export default function App() {
   const [initialized, setInitialized] = useState(false)
