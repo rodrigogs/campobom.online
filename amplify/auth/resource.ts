@@ -6,6 +6,8 @@ import { defineAuth } from '@aws-amplify/backend'
  */
 export const auth = defineAuth({
   loginWith: {
-    phone: true,
+    phone: {
+      verificationMessage: ((createCode) => `Seu código de verificação é ${createCode()}`),
+    },
   },
 })

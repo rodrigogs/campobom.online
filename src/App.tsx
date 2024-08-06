@@ -13,6 +13,13 @@ import { Results } from './components/Results'
 import { type AlertType, AppAlert, type AppAlertHandle } from './components/AppAlert'
 import { GpsValidation } from './components/GpsValidation'
 import { filterTitulars, normalizeCandidates } from './candidate-utils'
+import { Authenticator, defaultDarkModeOverride, ThemeProvider } from '@aws-amplify/ui-react'
+import { I18n } from 'aws-amplify/utils'
+import { translations } from '@aws-amplify/ui-react'
+import '@aws-amplify/ui-react/styles.css'
+
+I18n.putVocabularies(translations)
+I18n.setLanguage('pt')
 
 const client = generateClient<Schema>()
 
@@ -94,37 +101,91 @@ export default function App() {
   })
 
   return (
-    <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Box sx={{ my: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
-        <Header />
+    <Container
+      maxWidth="sm"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          flexGrow: 1,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
 
-        <AppAlert ref={alertRef} />
+          <Header />
 
-        {loading && (
-          <Loader />
-        )}
+          <ThemeProvider
+            theme={{
+              name: 'dark',
+              overrides: [defaultDarkModeOverride],
+            }}
+            colorMode='dark'
+          >
+            <Authenticator formFields={{
+              signIn: {
+                username: {
+                  dialCode: '+55',
+                  placeholder: 'Seu número de telefone',
+                },
+              },
+              signUp: {
+                phone_number: {
+                  dialCode: '+55',
+                  placeholder: 'Seu número de telefone',
+                },
+              },
+            }}>
+              {({ signOut, user }) => (
+                <div>
+                  <Button onClick={signOut} sx={{ alignSelf: 'flex-end' }} />
 
-        {initialized && !voted && (
-          <>
-            <Poll
-              setSelectedCandidateId={(id) => setSelectedCandidateId(id)}
-              candidates={filterTitulars(candidates)}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ marginTop: 2 }}
-              onClick={handleVote}
-              disabled={!selectedCandidateId || !locationValidated}
-            >
-              Votar
-            </Button>
-          </>
-        )}
+                  <AppAlert ref={alertRef} />
 
-        {initialized && voted && (
-          <Results />
-        )}
+                  {loading && (
+                    <Loader />
+                  )}
+
+                  {initialized && !voted && (
+                    <>
+                      <Poll
+                        setSelectedCandidateId={(id) => setSelectedCandidateId(id)}
+                        candidates={filterTitulars(candidates)}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ marginTop: 2 }}
+                        onClick={handleVote}
+                        disabled={!selectedCandidateId || !locationValidated}
+                      >
+                  Votar
+                      </Button>
+                    </>
+                  )}
+
+                  {initialized && voted && (
+                    <Results />
+                  )}
+                </div>
+              )}
+            </Authenticator>
+          </ThemeProvider>
+        </Box>
       </Box>
       <Box sx={{ py: 2 }}>
         <Copyright />

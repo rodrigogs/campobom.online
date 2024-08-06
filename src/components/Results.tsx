@@ -86,10 +86,17 @@ export function Results() {
             <ListItem key={candidate.id}>
               <Grid container alignItems="center" spacing={2} sx={{ padding: 2 }}>
                 <Grid item>
-                  <CircularAvatar src={candidate.photoUrl} alt={candidate.name} percentage={candidate.transients?.percentage} />
+                  <CircularAvatar
+                    src={candidate.photoUrl}
+                    alt={candidate.name}
+                    percentage={candidate.transients?.percentage}
+                  />
                 </Grid>
                 <Grid item xs>
-                  <ListItemText primary={candidate.name} secondary={`Votos: ${candidate.transients?.votes}`} />
+                  <ListItemText
+                    primary={candidate.name}
+                    secondary={`Votos: ${candidate.transients?.votes}`}
+                  />
                 </Grid>
               </Grid>
             </ListItem>
