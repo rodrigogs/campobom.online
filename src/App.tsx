@@ -138,20 +138,30 @@ export default function App() {
             }}
             colorMode='dark'
           >
-            <Authenticator formFields={{
-              signIn: {
-                username: {
-                  dialCode: '+55',
-                  placeholder: 'Seu número de telefone',
+            <Authenticator
+              initialState='signUp'
+              formFields={{
+                signIn: {
+                  username: {
+                    dialCode: '+55',
+                    placeholder: 'Seu número de telefone',
+                  },
                 },
-              },
-              signUp: {
-                phone_number: {
-                  dialCode: '+55',
-                  placeholder: 'Seu número de telefone',
+                signUp: {
+                  phone_number: {
+                    dialCode: '+55',
+                    placeholder: 'Seu número de telefone',
+                  },
                 },
-              },
-            }}>
+              }}
+              passwordSettings={{
+                minLength: 6,
+                requireLowercase: false,
+                requireNumbers: false,
+                requireUppercase: false,
+                requireSpecialCharacters: false,
+              }}
+            >
               {({ signOut, user }) => (
                 <div>
                   <Button onClick={signOut} sx={{ alignSelf: 'flex-end' }} />

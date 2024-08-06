@@ -15,31 +15,45 @@ export default async (client: ReturnType<typeof generateClient<Schema>>) => {
 
   const runOnce = async () => {
     const genifer = await createOrUpdateCandidate({
+      type: 'vice',
       name: 'Genifer Engers',
       photoUrl: '/candidates/genifer-engers.jpeg',
     })
     await createOrUpdateCandidate({
+      type: 'major',
       name: 'Giovani Feltes',
       viceId: genifer.data?.id,
       photoUrl: '/candidates/giovani-feltes.jpg',
     })
     const alex = await createOrUpdateCandidate({
+      type: 'vice',
       name: 'Alex Dias',
       photoUrl: '/candidates/alex-dias.jpeg',
     })
     await createOrUpdateCandidate({
+      type: 'major',
       name: 'Faisal Karam',
       viceId: alex.data?.id,
       photoUrl: '/candidates/faisal-karam.jpg',
     })
     const benedetti = await createOrUpdateCandidate({
+      type: 'vice',
       name: 'Benedetti',
       photoUrl: '/candidates/benedetti.jpg',
     })
     await createOrUpdateCandidate({
+      type: 'major',
       name: 'Victor Souza',
       viceId: benedetti.data?.id,
       photoUrl: '/candidates/victor-souza.jpg',
+    })
+    await createOrUpdateCandidate({
+      type: 'null',
+      name: 'Nulo',
+    })
+    await createOrUpdateCandidate({
+      type: 'blank',
+      name: 'Branco',
     })
   }
 
