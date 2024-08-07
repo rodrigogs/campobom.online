@@ -5,6 +5,7 @@ import { Header } from './Header'
 import { GpsFixedOutlined, GpsOff, ReportProblem, ShareLocation } from '@mui/icons-material'
 import * as turf from '@turf/turf'
 
+// To create coordinates use: https://geojson.io/#map=12.64/-29.67657/-51.07117/-11.2/16
 const polygon = turf.polygon([[
   [-51.05222012055111, -29.70808733027524],
   [-51.01569489084835, -29.68830219485853],
