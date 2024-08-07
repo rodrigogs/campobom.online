@@ -25,7 +25,7 @@ I18n.setLanguage('pt')
 const client = generateClient<Schema>()
 
 const enableAuth = import.meta.env.VITE_APP_ENABLE_AUTH === 'true'
-const enableGPS = import.meta.env.VITE_APP_ENABLE_AUTH === 'true'
+const enableGPS = import.meta.env.VITE_APP_ENABLE_GPS === 'true'
 
 const App = () => {
   const [initialized, setInitialized] = useState(false)
