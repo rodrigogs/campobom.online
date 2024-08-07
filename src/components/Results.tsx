@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { generateClient } from 'aws-amplify/api'
 import type { Candidate } from '../types'
 import type { Schema } from '../../amplify/data/resource'
-import { filterTitulars, normalizeCandidates } from '../candidate-utils'
+import { filterTitulars, normalizeCandidates } from '../utils'
 import { Loader } from './Loader'
 import { Box, List, ListItem, ListItemText, Avatar, Grid, CircularProgress } from '@mui/material'
 
@@ -53,9 +53,19 @@ export function Results() {
     const fetchResults = async () => {
       try {
         const { data } = await client.models.Candidate.list() as { data: Candidate[] }
-        const candidates = resolvePercentages(filterTitulars(await normalizeCandidates(data, true)))
-        const sortedCandidates = candidates.sort((a, b) => (a.transients?.votes || 0) - (b.transients?.votes || 0)).reverse()
-        setResults(sortedCandidates)
+        const resolvedCandidates = resolvePercentages(filterTitulars(await normalizeCandidates(data, true))) as Candidate[]
+
+        const sortedCandidatesList = resolvedCandidates
+          .filter(c => c.type === 'MAYOR' || c.type === 'VICE')
+          .sort((a, b) => (a.transients?.votes || 0) - (b.transients?.votes || 0)).reverse()
+
+        const sortedOptions = resolvedCandidates
+          .filter(c => c.type === 'NULL' || c.type === 'BLANK')
+          .sort((a, b) => (a.type === 'NULL' ? 1 : a.type === 'BLANK' ? 2 : 0) - (b.type === 'NULL' ? 1 : b.type === 'BLANK' ? 2 : 0))
+
+        const titularCandidates = sortedCandidatesList.filter(c => c.type === 'MAYOR')
+
+        setResults([...titularCandidates, ...sortedOptions])
       } catch (error) {
         console.error('Error fetching results:', error)
       } finally {
@@ -80,11 +90,11 @@ export function Results() {
       }}
     >
       <h3>Resultados</h3>
-      <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ padding: 2 }}>
+      <Grid container justifyContent="center" alignItems="center" spacing={2}>
         <List>
           {results.map((candidate) => (
             <ListItem key={candidate.id}>
-              <Grid container alignItems="center" spacing={2} sx={{ padding: 2 }}>
+              <Grid container alignItems="center" spacing={2}>
                 <Grid item>
                   <CircularAvatar
                     src={candidate.photoUrl}

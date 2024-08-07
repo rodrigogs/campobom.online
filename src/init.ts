@@ -36,15 +36,15 @@ export default async (client: ReturnType<typeof generateClient<Schema>>) => {
       viceId: alex.data?.id,
       photoUrl: '/candidates/faisal-karam.jpg',
     })
-    const benedetti = await createOrUpdateCandidate({
+    const Benetti = await createOrUpdateCandidate({
       type: 'VICE',
-      name: 'Benedetti',
-      photoUrl: '/candidates/benedetti.jpg',
+      name: 'Ademir Benetti',
+      photoUrl: '/candidates/ademir-benetti.jpg',
     })
     await createOrUpdateCandidate({
       type: 'MAYOR',
       name: 'Victor Souza',
-      viceId: benedetti.data?.id,
+      viceId: Benetti.data?.id,
       photoUrl: '/candidates/victor-souza.jpg',
     })
     await createOrUpdateCandidate({
