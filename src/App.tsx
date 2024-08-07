@@ -63,11 +63,15 @@ const App = () => {
         return
       }
 
-      const succeed = await client.mutations.castVote({
+      const { data: succeed, errors } = await client.mutations.castVote({
         uniqueId: user?.userId || `${Math.random()}`,
         candidateId: candidate.id,
         metadata: JSON.stringify({}),
       })
+
+      if (errors) {
+        return showAlert(alertRef)('error', 'Erro ao computar voto. Por favor, tente novamente.')
+      }
 
       if (succeed) {
         setVoted(true)

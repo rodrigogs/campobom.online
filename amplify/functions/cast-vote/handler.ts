@@ -16,7 +16,7 @@ export const handler: Schema['castVote']['functionHandler'] = async (event) => {
   // Check if the user has already voted
   const queryParams = {
     TableName: process.env.VOTE_TABLE_NAME,
-    IndexName: 'uniqueId',
+    IndexName: 'votesByUniqueId',
     KeyConditionExpression: 'uniqueId = :uniqueId',
     ExpressionAttributeValues: {
       ':uniqueId': uniqueId,

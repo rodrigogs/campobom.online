@@ -23,7 +23,7 @@ backend.castVote.resources.lambda.role?.attachInlinePolicy(
             'dynamodb:PutItem',
             'dynamodb:Query',
           ],
-          resources: [backend.data.resources.tables.Vote.tableArn],
+          resources: [`${backend.data.resources.tables.Vote.tableArn}*`],
         }),
       ],
     },
