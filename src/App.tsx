@@ -22,11 +22,7 @@ import '@aws-amplify/ui-react/styles.css'
 I18n.putVocabularies(translations)
 I18n.setLanguage('pt')
 
-import init from './init'
-
 const client = generateClient<Schema>()
-
-init(client)
 
 const enableAuth = import.meta.env.VITE_ENABLE_AUTH === 'true'
 const enableGPS = import.meta.env.VITE_ENABLE_GPS === 'true'
