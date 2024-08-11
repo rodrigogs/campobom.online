@@ -1,15 +1,22 @@
 import { defineBackend } from '@aws-amplify/backend'
+import { Stack } from 'aws-cdk-lib'
 import { auth } from './auth/resource'
 import { data } from './data/resource'
-import { castVote } from './functions/cast-vote'
 import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam'
-import { Stack } from 'aws-cdk-lib'
+import * as functions from './functions/resources'
 
 const backend = defineBackend({
   auth,
   data,
-  castVote,
+  ...functions,
 })
+
+const { cfnUserPool } = backend.auth.resources.cfnResources
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 6)
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireLowercase', false)
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireNumbers', false)
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireSymbols', false)
+cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireUppercase', false)
 
 backend.castVote.resources.lambda.role?.attachInlinePolicy(
   new Policy(
@@ -29,21 +36,19 @@ backend.castVote.resources.lambda.role?.attachInlinePolicy(
     },
   ))
 
-const { cfnUserPool } = backend.auth.resources.cfnResources
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.MinimumLength', 6)
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireLowercase', false)
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireNumbers', false)
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireSymbols', false)
-cfnUserPool.addPropertyOverride('Policies.PasswordPolicy.RequireUppercase', false)
-
-// const dataResources = backend.data.resources
-
-// const normalizeVariableName = (name: string) => {
-//   return name.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase()
-// }
-
-// for (const [name, table] of Object.entries(dataResources.tables)) {
-//   const variableName = `${normalizeVariableName(name)}_TABLE_NAME`
-//   @see https://github.com/aws-amplify/amplify-category-api/issues/2577
-//   setDotenvValue(variableName, JSON.stringify(table.tableName))
-// }
+backend.seed.resources.lambda.role?.attachInlinePolicy(
+  new Policy(
+    Stack.of(backend.data.resources.tables.Candidate),
+    'DynamoDBPolicy',
+    {
+      statements: [
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: [
+            'dynamodb:PutItem',
+          ],
+          resources: [`${backend.data.resources.tables.Candidate.tableArn}*`],
+        }),
+      ],
+    },
+  ))

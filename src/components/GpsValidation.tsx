@@ -64,7 +64,6 @@ export const GpsValidation: React.FC<GpsValidationProps> = ({ onValidationResult
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '80vw', maxWidth: 400, textAlign: 'center' }}>
               <p>Para votar, precisamos validar que você está dentro dos limites do município de Campo Bom.</p>
               <p><strong>Fique tranquilo, sua localização será utilizada apenas para validar se você está apto a votar. Não armazenaremos sua localização.</strong></p>
-              <p>Ao clicar no botão abaixo, o seu dispositivo irá solicitar permissão para acessar sua localização. Você pode aceitar para continuar.</p>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
               <Button

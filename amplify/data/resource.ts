@@ -1,8 +1,10 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 import { castVote } from '../functions/cast-vote'
+import { seed } from '../functions/seed'
 
 const schema = a.schema({
 
+  // Models
   Candidate: a
     .model({
       name: a.string().required(),
@@ -28,6 +30,13 @@ const schema = a.schema({
       index('uniqueId'),
       index('candidateId'),
     ])
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Functions
+  seed: a
+    .mutation()
+    .handler(a.handler.function(seed))
+    .returns(a.boolean())
     .authorization((allow) => [allow.publicApiKey()]),
 
   castVote: a
