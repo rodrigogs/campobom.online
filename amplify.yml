@@ -4,14 +4,13 @@ version: 1
 #     build:
 #       commands:
 #         - npm ci --cache .npm --prefer-offline
-#     postBuild:
-#       commands:
 #         - npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID
 #         - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 frontend:
   phases:
     build:
       commands:
+        - npm ci --cache .npm --prefer-offline
         - npm run build
   artifacts:
     baseDirectory: dist
