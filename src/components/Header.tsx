@@ -24,7 +24,7 @@ export function Header() {
       <Typography variant="h3" align="center">
         Campo Bom
       </Typography>
-      <Typography
+      {/* <Typography
         variant="h5"
         align="center"
         sx={{
@@ -36,7 +36,7 @@ export function Header() {
         }}
       >
         Depre
-      </Typography>
+      </Typography> */}
     </Box>
   )
 }
