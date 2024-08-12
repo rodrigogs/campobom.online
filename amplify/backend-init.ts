@@ -1,3 +1,9 @@
-import { defineBackend } from '@aws-amplify/backend'
+import { defineBackend, defineAuth } from '@aws-amplify/backend'
 
-defineBackend({})
+defineBackend({
+  auth: defineAuth({
+    loginWith: {
+      email: true,
+    },
+  }),
+})
