@@ -41,6 +41,8 @@ move_file() {
 prepare_for_first_deploy() {
   log "Preparing for first deployment..."
   cp -r "amplify" "amplify-bkp"
+  rm -rf "amplify/auth"
+  rm -rf "amplify/data"
   rm -rf "amplify/functions"
   move_file "amplify/backend-init.ts" "amplify/backend.ts"
 }
