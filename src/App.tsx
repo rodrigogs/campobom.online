@@ -131,10 +131,6 @@ const App = () => {
           <ThemeProvider theme={{ name: 'dark', overrides: [defaultDarkModeOverride] }} colorMode="dark">
             <Authenticator
               initialState="signUp"
-              formFields={{
-                signIn: { username: { dialCode: '+55', placeholder: 'Seu número de telefone' } },
-                signUp: { phone_number: { dialCode: '+55', placeholder: 'Seu número de telefone' } },
-              }}
               passwordSettings={{
                 minLength: 6,
                 requireLowercase: false,
