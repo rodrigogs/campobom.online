@@ -61,9 +61,7 @@ check_stack_existence() {
   if [[ $? -eq 0 ]]; then
     log "Stack exists, proceeding with deployment."
   else
-    echo "Debug: $output"
-
-    if grep -q "StackDoesNotExistError: Stack does not exist." <<< "$output"; then
+    if grep -q "Stack with id amplify" <<< "$output"; then
       log "Stack does not exist. This is the first deploy." "warn"
       isFirstDeploy=true
     else
