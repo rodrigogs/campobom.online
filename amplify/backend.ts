@@ -72,4 +72,3 @@ backend.seed.resources.lambda.role?.attachInlinePolicy(
       ],
     },
   ))
-
