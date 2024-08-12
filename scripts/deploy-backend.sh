@@ -38,12 +38,19 @@ move_file() {
   fi
 }
 
+prepare_for_first_deploy() {
+  log "Preparing for first deployment..."
+  cp -r "amplify" "amplify-bkp"
+  rm -rf "amplify/functions"
+  move_file "amplify/backend-init.ts" "amplify/backend.ts"
+}
+
 cleanup() {
   log "Initiating cleanup..."
   if $isFirstDeploy; then
     log "First deployment detected, restoring original backend file."
-    move_file "amplify/backend.ts" "amplify/backend-init.ts"
-    move_file "amplify/backend.ts.bak" "amplify/backend.ts"
+    rm -rf "amplify"
+    mv "amplify-bkp" "amplify"
   fi
 
   if rm -rf scripts/deploy-backend.mjs; then
@@ -73,8 +80,7 @@ check_stack_existence() {
 
 deploy_backend() {
   if $isFirstDeploy; then
-    move_file "amplify/backend.ts" "amplify/backend.ts.bak"
-    move_file "amplify/backend-init.ts" "amplify/backend.ts"
+    prepare_for_first_deploy
   fi
 
   if npx ampx pipeline-deploy --branch "$AWS_BRANCH" --app-id "$AWS_APP_ID"; then
