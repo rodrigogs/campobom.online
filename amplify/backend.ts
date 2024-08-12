@@ -1,6 +1,6 @@
 import { defineBackend } from '@aws-amplify/backend'
 import { Stack } from 'aws-cdk-lib'
-// import { EmailIdentity } from 'aws-cdk-lib/aws-ses'
+import { EmailIdentity } from 'aws-cdk-lib/aws-ses'
 import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { auth } from './auth/resource'
 import { data } from './data/resource'
@@ -24,19 +24,19 @@ cfnUserPool.policies = {
   },
 }
 
-// const authStack = Stack.of(cfnUserPool)
+const authStack = Stack.of(cfnUserPool)
 
-// const email = EmailIdentity.fromEmailIdentityName(
-//   authStack,
-//   'EmailIdentity',
-//   // your email configured for use in SES
-//   process.env.FROM_EMAIL || '',
-// )
+const email = EmailIdentity.fromEmailIdentityName(
+  authStack,
+  'EmailIdentity',
+  // your email configured for use in SES
+  process.env.FROM_EMAIL || '',
+)
 
-// cfnUserPool.emailConfiguration = {
-//   emailSendingAccount: 'DEVELOPER',
-//   sourceArn: email.emailIdentityArn,
-// }
+cfnUserPool.emailConfiguration = {
+  emailSendingAccount: 'DEVELOPER',
+  sourceArn: email.emailIdentityArn,
+}
 
 backend.castVote.resources.lambda.role?.attachInlinePolicy(
   new Policy(
