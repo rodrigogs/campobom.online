@@ -16,7 +16,9 @@ frontend:
   artifacts:
     baseDirectory: dist
     files:
-      - '**/*'
+      - '.amplify/**/*'
+      - 'src/**/*'
+      - 'amplify'
   cache:
     paths:
       - .npm/**/*
