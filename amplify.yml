@@ -6,8 +6,6 @@ backend:
         - corepack enable
         - pnpm install --frozen-lockfile
         - npm run deploy:backend
-        # - npx ampx generate outputs --branch "$AWS_BRANCH" --app-id "$AWS_APP_ID"
-        # - npx ampx pipeline-deploy --branch "$AWS_BRANCH" --app-id "$AWS_APP_ID"
 frontend:
   phases:
     build:
