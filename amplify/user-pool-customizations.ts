@@ -1,5 +1,5 @@
-// import { Stack } from 'aws-cdk-lib'
-// import { EmailIdentity } from 'aws-cdk-lib/aws-ses'
+import { Stack } from 'aws-cdk-lib'
+import { EmailIdentity } from 'aws-cdk-lib/aws-ses'
 import type { backend as Backend } from './backend'
 import type { backend as BackendInit } from './backend-init'
 
@@ -16,17 +16,17 @@ export default (backend: typeof Backend | typeof BackendInit) => {
     },
   }
 
-  // const authStack = Stack.of(cfnUserPool)
+  const authStack = Stack.of(cfnUserPool)
 
-  // const email = EmailIdentity.fromEmailIdentityName(
-  //   authStack,
-  //   'EmailIdentity',
-  //   // your email configured for use in SES
-  //   process.env.FROM_EMAIL || '',
-  // )
+  const email = EmailIdentity.fromEmailIdentityName(
+    authStack,
+    'EmailIdentity',
+    // your email configured for use in SES
+    process.env.FROM_EMAIL || '',
+  )
 
-  // cfnUserPool.emailConfiguration = {
-  //   emailSendingAccount: 'DEVELOPER',
-  //   sourceArn: email.emailIdentityArn,
-  // }
+  cfnUserPool.emailConfiguration = {
+    emailSendingAccount: 'DEVELOPER',
+    sourceArn: email.emailIdentityArn,
+  }
 }
