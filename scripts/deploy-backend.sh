@@ -25,25 +25,12 @@ log() {
   esac
 }
 
-move_file() {
-  local source="$1"
-  local destination="$2"
-
-  log "Moving $source to $destination"
-  if mv "$source" "$destination"; then
-    log "Moved $source to $destination"
-  else
-    log "Failed to move $source to $destination" "error"
-    exit 1
-  fi
-}
-
 prepare_for_first_deploy() {
   log "Preparing for first deployment..."
   cp -r "amplify" "amplify-bkp"
   rm -rf "amplify/data"
   rm -rf "amplify/functions"
-  move_file "amplify/backend-init.ts" "amplify/backend.ts"
+  cp "amplify/backend-init.ts" "amplify/backend.ts"
 }
 
 cleanup() {
