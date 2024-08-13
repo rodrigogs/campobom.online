@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Ensure that AWS_BRANCH and AWS_APP_ID environment variables are set
 if [[ -z "$AWS_BRANCH" || -z "$AWS_APP_ID" ]]; then
