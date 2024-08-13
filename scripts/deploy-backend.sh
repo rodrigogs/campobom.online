@@ -35,7 +35,7 @@ prepare_for_first_deploy() {
 
 cleanup() {
   log "Initiating cleanup..."
-  if $isFirstDeploy; then
+  if $isFirstDeploy && [ -d "amplify-bkp" ]; then
     log "First deployment detected, restoring original backend file."
     rm -rf "amplify"
     mv "amplify-bkp" "amplify"
