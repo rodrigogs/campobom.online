@@ -16,9 +16,7 @@ frontend:
   artifacts:
     baseDirectory: dist
     files:
-      - '.amplify/**/*'
-      - 'src/**/*'
-      - 'amplify'
+      - '**/*'
   cache:
     paths:
       - $(pnpm store path)
