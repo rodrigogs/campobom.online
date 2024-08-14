@@ -2,9 +2,8 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import { generateClient } from 'aws-amplify/data'
-import { Authenticator, defaultDarkModeOverride, ThemeProvider } from '@aws-amplify/ui-react'
+import { Authenticator, ThemeProvider, defaultDarkModeOverride, translations } from '@aws-amplify/ui-react'
 import { I18n } from 'aws-amplify/utils'
-import { translations } from '@aws-amplify/ui-react'
 import type { AuthUser } from 'aws-amplify/auth'
 import type { Candidate } from './types'
 import type { Schema } from '../amplify/data/resource'
@@ -64,7 +63,7 @@ const App = () => {
       }
 
       const { data: succeed, errors } = await client.mutations.castVote({
-        uniqueId: user?.userId || `${Math.random()}`,
+        uniqueId: user?.userId ?? `${Math.random()}`,
         candidateId: candidate.id,
         metadata: JSON.stringify({}),
       })
