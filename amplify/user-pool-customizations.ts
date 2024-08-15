@@ -22,7 +22,7 @@ export default (backend: typeof Backend | typeof BackendInit) => {
     authStack,
     'EmailIdentity',
     // your email configured for use in SES
-    process.env.FROM_EMAIL || '',
+    process.env.FROM_EMAIL ?? '',
   )
 
   cfnUserPool.emailConfiguration = {

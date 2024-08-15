@@ -86,7 +86,6 @@ export function Results() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        width: '100vw',
       }}
     >
       <h3>Resultados</h3>
@@ -102,7 +101,7 @@ export function Results() {
                     percentage={candidate.transients?.percentage}
                   />
                 </Grid>
-                <Grid item xs>
+                <Grid item>
                   <ListItemText
                     primary={candidate.name}
                     secondary={`Votos: ${candidate.transients?.votes}`}

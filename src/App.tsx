@@ -112,13 +112,14 @@ const App = () => {
     <>
       <AppAlert ref={alertRef} />
       {loading && <Loader />}
-      {initialized && !voted && (
+      {enableGPS && <GpsValidation onValidationResult={handleGpsValidationResult} />}
+      {initialized && !voted && locationValidated && (
         <>
           <Poll setSelectedCandidateId={setSelectedCandidateId} candidates={sortedCandidates} />
           <VoteButton handleVote={handleVote(user)} disabled={loading || voting || !selectedCandidateId || !locationValidated} />
         </>
       )}
-      {initialized && voted && <Results />}
+      {initialized && voted || !locationValidated && <Results />}
     </>
   )
 
@@ -138,7 +139,9 @@ const App = () => {
                 requireSpecialCharacters: false,
               }}
             >
-              {({ user }) => <>{renderContent(user)}</>}
+              {({ user }) => <>
+                {renderContent(user)}
+              </>}
             </Authenticator>
           </ThemeProvider>
         ) : (
@@ -148,7 +151,6 @@ const App = () => {
       <Box sx={{ py: 2 }}>
         <Copyright />
       </Box>
-      {enableGPS && <GpsValidation onValidationResult={handleGpsValidationResult} />}
     </Container>
   )
 }

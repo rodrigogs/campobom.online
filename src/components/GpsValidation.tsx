@@ -70,7 +70,7 @@ export const GpsValidation: React.FC<GpsValidationProps> = ({ onValidationResult
                 variant="contained"
                 color="primary"
                 onClick={checkLocation}
-                disabled={loading || !!locationValidated}
+                disabled={loading || locationValidated !== null}
                 sx={{ display: 'flex', alignItems: 'center' }}>
                 {loading
                   ? <><CircularProgress color='info' size={24} sx={{ mr: 2 }} />Validando...</>
