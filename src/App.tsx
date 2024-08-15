@@ -17,6 +17,7 @@ import { VoteButton } from './components/VoteButton'
 import { GpsValidation } from './components/GpsValidation'
 import { Copyright } from './components/Copyright'
 import '@aws-amplify/ui-react/styles.css'
+import { Awaiter } from './components/Awaiter'
 
 I18n.putVocabularies(translations)
 I18n.setLanguage('pt')
@@ -140,7 +141,10 @@ const App = () => {
               }}
             >
               {({ user }) => <>
-                {renderContent(user)}
+                {new Date('2024-08-15T21:00:00-03:00') > new Date() && (<Awaiter until={new Date('2024-08-15T21:00:00-03:00')}>
+                  {() => renderContent(user)}
+                </Awaiter>)}
+                {new Date('2024-08-15T21:00:00-03:00') < new Date() && renderContent(user)}
               </>}
             </Authenticator>
           </ThemeProvider>
