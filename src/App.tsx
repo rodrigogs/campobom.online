@@ -113,13 +113,13 @@ const App = () => {
       <AppAlert ref={alertRef} />
       {loading && <Loader />}
       {enableGPS && <GpsValidation onValidationResult={handleGpsValidationResult} />}
-      {initialized && !voted && locationValidated && (
+      {initialized && (!voted && locationValidated) && (
         <>
           <Poll setSelectedCandidateId={setSelectedCandidateId} candidates={sortedCandidates} />
           <VoteButton handleVote={handleVote(user)} disabled={loading || voting || !selectedCandidateId || !locationValidated} />
         </>
       )}
-      {initialized && voted || !locationValidated && <Results />}
+      {initialized && (voted || !locationValidated) && <Results />}
     </>
   )
 
