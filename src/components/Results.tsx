@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { generateClient } from 'aws-amplify/api'
 import type { Candidate } from '../types'
 import type { Schema } from '../../amplify/data/resource'
@@ -49,23 +49,39 @@ export function Results() {
   const [loading, setLoading] = useState(true)
   const [results, setResults] = useState<Candidate[]>([])
 
+  const refresh = useCallback(async () => {
+    try {
+      setLoading(true)
+
+      const { data } = await client.models.Candidate.list() as { data: Candidate[] }
+
+      const resolvedCandidates = resolvePercentages(filterTitulars(await normalizeCandidates(data, true))) as Candidate[]
+      const sortedCandidatesList = resolvedCandidates
+        .filter(c => c.type === 'MAYOR' || c.type === 'VICE')
+        .sort((a, b) => (a.transients?.votes || 0) - (b.transients?.votes || 0)).reverse()
+
+      const sortedOptions = resolvedCandidates
+        .filter(c => c.type === 'NULL' || c.type === 'BLANK')
+        .sort((a, b) => (a.type === 'NULL' ? 1 : a.type === 'BLANK' ? 2 : 0) - (b.type === 'NULL' ? 1 : b.type === 'BLANK' ? 2 : 0))
+
+      const titularCandidates = sortedCandidatesList.filter(c => c.type === 'MAYOR')
+
+      setResults([...titularCandidates, ...sortedOptions])
+    } catch (error) {
+      console.error('Error fetching results:', error)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  client.models.Vote.onCreate().subscribe(() => {
+    refresh()
+  })
+
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const { data } = await client.models.Candidate.list() as { data: Candidate[] }
-        const resolvedCandidates = resolvePercentages(filterTitulars(await normalizeCandidates(data, true))) as Candidate[]
-
-        const sortedCandidatesList = resolvedCandidates
-          .filter(c => c.type === 'MAYOR' || c.type === 'VICE')
-          .sort((a, b) => (a.transients?.votes || 0) - (b.transients?.votes || 0)).reverse()
-
-        const sortedOptions = resolvedCandidates
-          .filter(c => c.type === 'NULL' || c.type === 'BLANK')
-          .sort((a, b) => (a.type === 'NULL' ? 1 : a.type === 'BLANK' ? 2 : 0) - (b.type === 'NULL' ? 1 : b.type === 'BLANK' ? 2 : 0))
-
-        const titularCandidates = sortedCandidatesList.filter(c => c.type === 'MAYOR')
-
-        setResults([...titularCandidates, ...sortedOptions])
+        await refresh()
       } catch (error) {
         console.error('Error fetching results:', error)
       } finally {
@@ -74,7 +90,7 @@ export function Results() {
     }
 
     fetchResults()
-  }, [])
+  }, [refresh])
 
   if (loading) {
     return <Loader />
