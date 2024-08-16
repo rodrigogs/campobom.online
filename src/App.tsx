@@ -9,6 +9,7 @@ import type { Candidate } from './types'
 import type { Schema } from '../amplify/data/resource'
 import { initializeApp, showAlert, dismissAlert } from './utils'
 import { AppAlert, type AppAlertHandle } from './components/AppAlert'
+import { Awaiter } from './components/Awaiter'
 import { Header } from './components/Header'
 import { Poll } from './components/Poll'
 import { Loader } from './components/Loader'
@@ -17,7 +18,6 @@ import { VoteButton } from './components/VoteButton'
 import { GpsValidation } from './components/GpsValidation'
 import { Copyright } from './components/Copyright'
 import '@aws-amplify/ui-react/styles.css'
-import { Awaiter } from './components/Awaiter'
 
 I18n.putVocabularies(translations)
 I18n.setLanguage('pt')
