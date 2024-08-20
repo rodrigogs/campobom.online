@@ -43,6 +43,8 @@ const App = () => {
       setInitialized,
       setLoading,
       setCandidates,
+      setVoted,
+      setLocationValidated,
       showAlert: showAlert(alertRef),
       dismissAlert: dismissAlert(alertRef),
     })
@@ -113,7 +115,7 @@ const App = () => {
     <>
       <AppAlert ref={alertRef} />
       {loading && <Loader />}
-      {enableGPS && <GpsValidation onValidationResult={handleGpsValidationResult} />}
+      {enableGPS && !locationValidated && <GpsValidation onValidationResult={handleGpsValidationResult} />}
       {initialized && (!voted && locationValidated) && (
         <>
           <Poll setSelectedCandidateId={setSelectedCandidateId} candidates={sortedCandidates} />

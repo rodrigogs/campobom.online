@@ -1,4 +1,5 @@
 import { generateClient } from 'aws-amplify/data'
+import { getCurrentUser } from 'aws-amplify/auth'
 import type { Schema } from '../amplify/data/resource'
 import type { Candidate } from './types'
 import type { AlertType, AppAlertHandle } from './components/AppAlert'
@@ -41,6 +42,8 @@ interface InitializeAppProps {
   setInitialized: React.Dispatch<React.SetStateAction<boolean>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   setCandidates: React.Dispatch<React.SetStateAction<Candidate[]>>
+  setVoted: React.Dispatch<React.SetStateAction<boolean>>
+  setLocationValidated: React.Dispatch<React.SetStateAction<boolean>>
   showAlert: (type: AlertType, text: string, timeout?: number) => void
   dismissAlert: () => void
 }
@@ -50,6 +53,8 @@ export const initializeApp = async ({
   setInitialized,
   setLoading,
   setCandidates,
+  setVoted,
+  setLocationValidated,
   showAlert,
   dismissAlert,
 }: InitializeAppProps) => {
@@ -67,10 +72,18 @@ export const initializeApp = async ({
       .sort((a, b) => (a.type === 'NULL' ? 1 : a.type === 'BLANK' ? 2 : 0) - (b.type === 'NULL' ? 1 : b.type === 'BLANK' ? 2 : 0))
 
     const rawCandidates = [...sortedCandidates, ...sortedOptions] as Candidate[]
-
     const normalizedCandidates = await normalizeCandidates(rawCandidates, false)
 
     setCandidates(normalizedCandidates)
+
+    const { userId } = await getCurrentUser()
+    const voted = (await client.models.Vote.listVoteByUniqueId({ uniqueId: userId })).data.length > 0
+
+    if (voted) {
+      setVoted(true)
+      setLocationValidated(true)
+    }
+
     setInitialized(true)
   } catch (error) {
     showAlert('error', 'Erro ao carregar candidatos. Por favor, tente novamente.')
