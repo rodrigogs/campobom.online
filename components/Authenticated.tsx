@@ -5,7 +5,15 @@ import { Amplify } from 'aws-amplify'
 import { AuthUser } from 'aws-amplify/auth'
 import { I18n } from 'aws-amplify/utils'
 import config from '@/amplify_outputs.json'
-import { passwordPolicy } from '@/src/password-policy'
+
+const passwordPolicy = {
+  minimumLength: 6,
+  requireLowercase: false,
+  requireNumbers: false,
+  requireSymbols: false,
+  requireUppercase: false,
+  temporaryPasswordValidityDays: 20,
+}
 
 Amplify.configure(config)
 
