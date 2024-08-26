@@ -3,8 +3,7 @@ backend:
   phases:
     build:
       commands:
-        - corepack enable
-        - pnpm install --frozen-lockfile
+        - npm ci
         - npm run deploy:backend
 frontend:
   phases:
