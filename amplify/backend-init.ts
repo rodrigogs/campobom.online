@@ -1,9 +1,9 @@
-import { defineBackend } from '@aws-amplify/backend'
+import { applyUserPoolCustomizations } from './user-pool-customizations'
 import { auth } from './auth/resource'
-import userPoolCustomizations from './user-pool-customizations'
+import { defineBackend } from '@aws-amplify/backend'
 
 export const backend = defineBackend({
   auth,
 })
 
-userPoolCustomizations(backend)
+applyUserPoolCustomizations(backend)

@@ -1,10 +1,10 @@
+import type { AlertType, AppAlertHandle } from '@/components/AppAlert'
+import type { Candidate } from '@/src/types'
+import { Schema } from '@/amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 import { getCurrentUser } from 'aws-amplify/auth'
-import type { Schema } from '../amplify/data/resource'
-import type { Candidate } from './types'
-import type { AlertType, AppAlertHandle } from './components/AppAlert'
 
-const client = generateClient<Schema>()
+export const client = generateClient<Schema>()
 
 const retrieveVotes = async (candidate: Candidate) => {
   const { data, errors } = await client.models.Vote.listVoteByCandidateId({ candidateId: candidate.id })
@@ -38,7 +38,6 @@ export const dismissAlert = (alertRef: React.RefObject<AppAlertHandle>) => () =>
 }
 
 interface InitializeAppProps {
-  client: ReturnType<typeof generateClient<Schema>>
   setInitialized: React.Dispatch<React.SetStateAction<boolean>>
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
   setCandidates: React.Dispatch<React.SetStateAction<Candidate[]>>
@@ -49,7 +48,6 @@ interface InitializeAppProps {
 }
 
 export const initializeApp = async ({
-  client,
   setInitialized,
   setLoading,
   setCandidates,

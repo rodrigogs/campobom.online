@@ -1,5 +1,5 @@
 import { Alert, Stack } from '@mui/material'
-import { useState, forwardRef, useImperativeHandle, type ReactNode } from 'react'
+import { type ReactNode, forwardRef, useImperativeHandle, useState } from 'react'
 
 export type AlertType = 'success' | 'error' | 'info' | 'warning'
 
@@ -17,6 +17,7 @@ export interface AppAlertHandle {
 }
 
 export const AppAlert = forwardRef<AppAlertHandle>((_props, ref) => {
+  AppAlert.displayName = 'AppAlert'
   const [alert, setAlert] = useState<AlertProps | null>(null)
 
   useImperativeHandle(ref, () => ({
