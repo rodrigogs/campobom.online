@@ -70,6 +70,7 @@ deploy_backend() {
     prepare_for_first_deploy
   fi
 
+  log "Deploying backend..."
   if npx ampx pipeline-deploy --branch "$AWS_BRANCH" --app-id "$AWS_APP_ID"; then
     log "Backend deployment successful."
     if $isFirstDeploy; then
