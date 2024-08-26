@@ -1,16 +1,16 @@
+import { Avatar, Box, CircularProgress, Grid, List, ListItem, ListItemText } from '@mui/material'
+import { filterTitulars, normalizeCandidates } from '@/app/utils'
 import { useCallback, useEffect, useState } from 'react'
-import { generateClient } from 'aws-amplify/api'
-import type { Candidate } from '../types'
-import type { Schema } from '../../amplify/data/resource'
-import { filterTitulars, normalizeCandidates } from '../utils'
+import type { Candidate } from '@/src/types'
 import { Loader } from './Loader'
-import { Box, List, ListItem, ListItemText, Avatar, Grid, CircularProgress } from '@mui/material'
+import type { Schema } from '@/amplify/data/resource'
+import { generateClient } from 'aws-amplify/api'
 
 const client = generateClient<Schema>()
 
 const resolvePercentages = (candidates: Candidate[]) => {
   const totalVotes = candidates.reduce((acc, candidate) =>
-    acc + (candidate.transients?.votes || 0), 0)
+    acc + (candidate.transients?.votes ?? 0), 0)
   return candidates.map(candidate => ({
     ...candidate,
     transients: {
@@ -112,7 +112,7 @@ export function Results() {
               <Grid container alignItems="center" spacing={2}>
                 <Grid item>
                   <CircularAvatar
-                    src={candidate.photoUrl}
+                    src={`images/${candidate.photoUrl}`}
                     alt={candidate.name}
                     percentage={candidate.transients?.percentage}
                   />

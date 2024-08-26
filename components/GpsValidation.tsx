@@ -1,9 +1,11 @@
+'use client'
+
+import * as turf from '@turf/turf'
+import { Box, Button, CircularProgress, Container, Dialog, DialogContent, DialogTitle } from '@mui/material'
+import { GpsFixedOutlined, GpsOff, ReportProblem, ShareLocation } from '@mui/icons-material'
+import { Header } from './Header'
 import type React from 'react'
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogTitle, Button, CircularProgress, Box, Container } from '@mui/material'
-import { Header } from './Header'
-import { GpsFixedOutlined, GpsOff, ReportProblem, ShareLocation } from '@mui/icons-material'
-import * as turf from '@turf/turf'
 
 // To create coordinates use: https://geojson.io/#map=12.64/-29.67657/-51.07117/-11.2/16
 const polygon = turf.polygon([[

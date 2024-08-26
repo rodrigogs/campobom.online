@@ -1,6 +1,6 @@
-import type React from 'react'
+import { Box, CircularProgress, Dialog, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Dialog, Typography, Box, CircularProgress } from '@mui/material'
+import type React from 'react'
 
 type AwaiterProps = {
   until: Date;

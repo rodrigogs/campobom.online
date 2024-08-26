@@ -1,19 +1,13 @@
-import { Stack } from 'aws-cdk-lib'
-import { EmailIdentity } from 'aws-cdk-lib/aws-ses'
 import type { backend as Backend } from './backend'
 import type { backend as BackendInit } from './backend-init'
+import { EmailIdentity } from 'aws-cdk-lib/aws-ses'
+import { Stack } from 'aws-cdk-lib'
+import { passwordPolicy } from '@/src/password-policy'
 
-export default (backend: typeof Backend | typeof BackendInit) => {
+export const applyUserPoolCustomizations = (backend: typeof Backend | typeof BackendInit) => {
   const { cfnUserPool } = backend.auth.resources.cfnResources
   cfnUserPool.policies = {
-    passwordPolicy: {
-      minimumLength: 6,
-      requireLowercase: false,
-      requireNumbers: false,
-      requireSymbols: false,
-      requireUppercase: false,
-      temporaryPasswordValidityDays: 20,
-    },
+    passwordPolicy,
   }
 
   const authStack = Stack.of(cfnUserPool)

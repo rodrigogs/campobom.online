@@ -1,15 +1,15 @@
 import {
-  FormControl,
-  Box,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Grid,
   Avatar,
-  Typography,
+  Box,
+  FormControl,
+  FormControlLabel,
   FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
 } from '@mui/material'
-import type { Candidate } from '../types'
+import type { Candidate } from '@/src/types'
 
 export type PollProps = {
   candidates: Candidate[];
@@ -99,7 +99,7 @@ const CandidateInfo = ({ candidate }: CandidateOptionProps) => (
 const CandidateWithDetails = ({ candidate }: CandidateOptionProps) => (
   <Grid container spacing={2} sx={{ alignItems: 'center' }}>
     <Grid item>
-      <Avatar src={candidate.photoUrl} alt={candidate.name} sx={{ width: 60, height: 60 }} />
+      <Avatar src={`images/${candidate.photoUrl}`} alt={candidate.name} sx={{ width: 60, height: 60 }} />
     </Grid>
     <Grid item>
       <Box>

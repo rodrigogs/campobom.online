@@ -1,10 +1,10 @@
-import { defineBackend } from '@aws-amplify/backend'
-import { Stack } from 'aws-cdk-lib'
+import * as functions from './functions/resources'
 import { Effect, Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam'
+import { Stack } from 'aws-cdk-lib'
+import { applyUserPoolCustomizations } from './user-pool-customizations'
 import { auth } from './auth/resource'
 import { data } from './data/resource'
-import * as functions from './functions/resources'
-import userPoolCustomizations from './user-pool-customizations'
+import { defineBackend } from '@aws-amplify/backend'
 
 export const backend = defineBackend({
   auth,
@@ -12,7 +12,7 @@ export const backend = defineBackend({
   ...functions,
 })
 
-userPoolCustomizations(backend)
+applyUserPoolCustomizations(backend)
 
 backend.castVote.resources.lambda.role?.attachInlinePolicy(
   new Policy(

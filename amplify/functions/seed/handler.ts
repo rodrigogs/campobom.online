@@ -1,10 +1,7 @@
-import { Amplify } from 'aws-amplify'
-import type { Schema } from '../../data/resource'
-import amplifyConfig from '../../../amplify_outputs.json'
+import '@/amplify/utils/init'
+import type { Candidate } from '@/src/types'
+import type { Schema } from '@/amplify/data/resource'
 import { generateClient } from 'aws-amplify/api'
-import type { Candidate } from '@src/types'
-
-Amplify.configure(amplifyConfig)
 
 const client = generateClient<Schema>()
 

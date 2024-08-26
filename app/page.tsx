@@ -1,33 +1,26 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
-import Container from '@mui/material/Container'
-import Box from '@mui/material/Box'
-import { generateClient } from 'aws-amplify/data'
-import { Authenticator, ThemeProvider, defaultDarkModeOverride, translations } from '@aws-amplify/ui-react'
-import { I18n } from 'aws-amplify/utils'
-import type { AuthUser } from 'aws-amplify/auth'
-import type { Candidate } from './types'
-import type { Schema } from '../amplify/data/resource'
-import { initializeApp, showAlert, dismissAlert } from './utils'
-import { AppAlert, type AppAlertHandle } from './components/AppAlert'
-import { Awaiter } from './components/Awaiter'
-import { Header } from './components/Header'
-import { Poll } from './components/Poll'
-import { Loader } from './components/Loader'
-import { Results } from './components/Results'
-import { VoteButton } from './components/VoteButton'
-import { GpsValidation } from './components/GpsValidation'
-import { Copyright } from './components/Copyright'
-import '@aws-amplify/ui-react/styles.css'
+'use client'
 
-I18n.putVocabularies(translations)
-I18n.setLanguage('pt')
+import '@aws-amplify/ui-react/styles.css'
+import { AppAlert, type AppAlertHandle } from '@/components/AppAlert'
+import { dismissAlert, initializeApp, showAlert } from '@/app/utils'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { AuthUser } from 'aws-amplify/auth'
+import { Authenticated } from '@/components/Authenticated'
+import type { Candidate } from '@/src/types'
+import { GpsValidation } from '@/components/GpsValidation'
+import { Loader } from '@/components/Loader'
+import { Poll } from '@/components/Poll'
+import { Results } from '@/components/Results'
+import { Schema } from '@/amplify/data/resource'
+import { VoteButton } from '@/components/VoteButton'
+import { generateClient } from 'aws-amplify/data'
 
 const client = generateClient<Schema>()
 
-const enableAuth = import.meta.env.VITE_APP_ENABLE_AUTH === 'true'
-const enableGPS = import.meta.env.VITE_APP_ENABLE_GPS === 'true'
+const enableAuth = process.env.VITE_APP_ENABLE_AUTH === 'true'
+const enableGPS = process.env.VITE_APP_ENABLE_GPS === 'true'
 
-const App = () => {
+const Home = () => {
   const [initialized, setInitialized] = useState(false)
   const [loading, setLoading] = useState(true)
   const [candidates, setCandidates] = useState<Candidate[]>([])
@@ -39,7 +32,6 @@ const App = () => {
 
   useEffect(() => {
     initializeApp({
-      client,
       setInitialized,
       setLoading,
       setCandidates,
@@ -111,8 +103,8 @@ const App = () => {
     return [...titularCandidates, ...sortedOptions] as Candidate[]
   }, [candidates])
 
-  const renderContent = (user?: AuthUser) => (
-    <>
+  return <Authenticated>
+    {({ user }) => (<div>
       <AppAlert ref={alertRef} />
       {loading && <Loader />}
       {enableGPS && !locationValidated && <GpsValidation onValidationResult={handleGpsValidationResult} />}
@@ -123,42 +115,8 @@ const App = () => {
         </>
       )}
       {initialized && (voted || !locationValidated) && <Results />}
-    </>
-  )
-
-  return (
-    <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', justifyContent: 'center', alignItems: 'center' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
-        <Header />
-        {enableAuth ? (
-          <ThemeProvider theme={{ name: 'dark', overrides: [defaultDarkModeOverride] }} colorMode="dark">
-            <Authenticator
-              initialState="signUp"
-              passwordSettings={{
-                minLength: 6,
-                requireLowercase: false,
-                requireNumbers: false,
-                requireUppercase: false,
-                requireSpecialCharacters: false,
-              }}
-            >
-              {({ user }) => <>
-                {new Date('2024-08-15T21:00:00-03:00') > new Date() && (<Awaiter until={new Date('2024-08-15T21:00:00-03:00')}>
-                  {() => renderContent(user)}
-                </Awaiter>)}
-                {new Date('2024-08-15T21:00:00-03:00') < new Date() && renderContent(user)}
-              </>}
-            </Authenticator>
-          </ThemeProvider>
-        ) : (
-          renderContent()
-        )}
-      </Box>
-      <Box sx={{ py: 2 }}>
-        <Copyright />
-      </Box>
-    </Container>
-  )
+    </div>)}
+  </Authenticated>
 }
 
-export default App
+export default Home
