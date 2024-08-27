@@ -1,5 +1,6 @@
 'use client'
 
+import '@/components/ConfigureAmplify'
 import { Authenticator, ThemeProvider, defaultDarkModeOverride } from '@aws-amplify/ui-react'
 import { AuthUser } from 'aws-amplify/auth'
 
