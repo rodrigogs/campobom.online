@@ -1,6 +1,7 @@
 import './app.css'
 import { Box, Container, CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
+import { ConfigureAmplifyClientSide } from '@/components/ConfigureAmplify'
 import { Copyright } from '@/components/Copyright'
 import { Header } from '@/components/Header'
 import { Inter } from 'next/font/google'
@@ -22,6 +23,7 @@ export default function RootLayout({
 }) {
 return (
   <html lang="pt-br">
+    <ConfigureAmplifyClientSide />
     <body className={inter.className}>
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>

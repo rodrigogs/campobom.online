@@ -1,6 +1,5 @@
 'use client'
 
-import '@/components/ConfigureAmplify'
 import { Avatar, Box, CircularProgress, Grid, List, ListItem, ListItemText } from '@mui/material'
 import { filterTitulars, normalizeCandidates } from '@/app/utils'
 import { useCallback, useEffect, useState } from 'react'

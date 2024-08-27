@@ -1,6 +1,5 @@
 'use client'
 
-import '@/components/ConfigureAmplify'
 import '@aws-amplify/ui-react/styles.css'
 import { AppAlert, type AppAlertHandle } from '@/components/AppAlert'
 import { dismissAlert, initializeApp, showAlert } from '@/app/utils'
@@ -123,7 +122,6 @@ const EleicoesMunicipaisPrefeito2024 = () => {
           <VoteButton handleVote={handleVote(user)} disabled={loading || voting || !selectedCandidateId || !locationValidated} />
         </>
       )}
-      {initialized && (voted || !locationValidated) && <Results />}
     </div>)}
   </Authenticated>
 }
