@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import Image from 'next/image'
+import Link from 'next/link'
 import logoSvg from '@/public/images/logo.svg'
 
 export function Header() {
@@ -14,11 +15,13 @@ export function Header() {
         py: 2,
       }}
     >
-      <Image src={logoSvg} alt="Election Logo" style={{
-        width: '5em',
-        height: 'auto',
-        marginBottom: 5,
-      }} />
+      <Link href="/">
+        <Image src={logoSvg} alt="Election Logo" style={{
+          width: '5em',
+          height: 'auto',
+          marginBottom: 5,
+        }} />
+      </Link>
 
       <Typography variant="h3" align="center">
         Campo Bom

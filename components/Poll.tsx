@@ -99,7 +99,7 @@ const CandidateInfo = ({ candidate }: CandidateOptionProps) => (
 const CandidateWithDetails = ({ candidate }: CandidateOptionProps) => (
   <Grid container spacing={2} sx={{ alignItems: 'center' }}>
     <Grid item>
-      <Avatar src={`images/${candidate.photoUrl}`} alt={candidate.name} sx={{ width: 60, height: 60 }} />
+      <Avatar src={`/images/${candidate.photoUrl}`} alt={candidate.name} sx={{ width: 60, height: 60 }} />
     </Grid>
     <Grid item>
       <Box>

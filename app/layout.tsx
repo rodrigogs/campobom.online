@@ -1,4 +1,5 @@
 import './app.css'
+import '@/components/ConfigureAmplify'
 import { Box, Container, CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import { Copyright } from '@/components/Copyright'
