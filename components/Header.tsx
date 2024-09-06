@@ -1,9 +1,10 @@
 import { Box, Typography } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Logout } from './Logout'
 import logoSvg from '@/public/images/logo.svg'
 
-export function Header() {
+export async function Header() {
   return (
     <Box
       sx={{
@@ -39,6 +40,18 @@ export function Header() {
       >
         Depre
       </Typography>
+
+      {/* {username && (
+        <Box
+          sx={{
+            marginTop: 2,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Logout />
+        </Box>
+      )} */}
     </Box>
   )
 }

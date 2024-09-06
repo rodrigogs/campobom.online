@@ -3,7 +3,7 @@
 import { signOut } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
 
-export default function Logout() {
+export function Logout() {
   const router = useRouter()
 
   return (
@@ -11,7 +11,7 @@ export default function Logout() {
       type='button'
       onClick={async () => {
         await signOut()
-        router.push('/login')
+        router.push('/')
       }}
       className="px-2 bg-white text-black"
     >
