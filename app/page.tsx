@@ -12,8 +12,6 @@ const Home = () => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          minHeight: '100vh',
-          padding: 3,
         }}
       >
         <Stack spacing={4} maxWidth={400} width="100%">

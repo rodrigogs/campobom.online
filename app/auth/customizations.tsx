@@ -181,47 +181,15 @@ export const formFields = {
   signUp: {
     username: {
       placeholder: 'Digite seu e-mail',
-      component: (props: React.JSX.IntrinsicAttributes & { variant?: TextFieldVariants | undefined } & Omit<FilledTextFieldProps | OutlinedTextFieldProps | StandardTextFieldProps, 'variant'>) => (
-        <TextField
-          fullWidth
-          label="E-mail"
-          placeholder="Digite seu e-mail"
-          variant="outlined"
-          margin="normal"
-          {...props}
-        />
-      ),
     },
     password: {
       placeholder: 'Digite sua senha:',
-      component: (props: React.JSX.IntrinsicAttributes & { variant?: TextFieldVariants | undefined } & Omit<FilledTextFieldProps | OutlinedTextFieldProps | StandardTextFieldProps, 'variant'>) => (
-        <TextField
-          fullWidth
-          label="Senha"
-          type="password"
-          placeholder="Digite sua senha"
-          variant="outlined"
-          margin="normal"
-          {...props}
-        />
-      ),
       isRequired: false,
-      order: 2,
+      order: 1,
     },
     confirm_password: {
       placeholder: 'Confirme a senha:',
-      component: (props: React.JSX.IntrinsicAttributes & { variant?: TextFieldVariants | undefined } & Omit<FilledTextFieldProps | OutlinedTextFieldProps | StandardTextFieldProps, 'variant'>) => (
-        <TextField
-          fullWidth
-          label="Confirme a senha"
-          type="password"
-          placeholder="Confirme sua senha"
-          variant="outlined"
-          margin="normal"
-          {...props}
-        />
-      ),
-      order: 1,
+      order: 2,
     },
   },
 }
