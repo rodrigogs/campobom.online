@@ -3,6 +3,7 @@ import { Box, Container, CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import { ConfigureAmplifyClientSide } from '@/components/ConfigureAmplify'
 import { Copyright } from '@/components/Copyright'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Header } from '@/components/Header'
 import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
@@ -77,6 +78,7 @@ return (
   <html lang="pt-br">
     <body className={inter.className}>
       <ConfigureAmplifyClientSide />
+
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -91,6 +93,8 @@ return (
           </Container>
         </ThemeProvider>
       </AppRouterCacheProvider>
+
+      <GoogleAnalytics gaId="G-WTR391M4P5" />
     </body>
   </html>
   )
