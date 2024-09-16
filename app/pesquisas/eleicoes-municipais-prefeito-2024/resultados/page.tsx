@@ -3,7 +3,6 @@
 import { Avatar, Box, CircularProgress, Grid, List, ListItem, ListItemText } from '@mui/material'
 import { filterTitulars, normalizeCandidates } from '@/app/utils'
 import { useCallback, useEffect, useState } from 'react'
-import { Authenticated } from '@/components/Authenticated'
 import type { Candidate } from '@/src/types'
 import { Loader } from '@/components/Loader'
 import type { Schema } from '@/amplify/data/resource'
@@ -99,40 +98,37 @@ const EleicoesMunicipaisPrefeito2024Results = () => {
     return <Loader />
   }
 
-  return <Authenticated>
-    {() => (<Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
-        <h3>Resultados</h3>
-        <Grid container justifyContent="center" alignItems="center" spacing={2}>
-          <List>
-            {results.map((candidate) => (
-              <ListItem key={candidate.id}>
-                <Grid container alignItems="center" spacing={2}>
-                  <Grid item>
-                    <CircularAvatar
-                      src={`/images/${candidate.photoUrl}`}
-                      alt={candidate.name}
-                      percentage={candidate.transients?.percentage}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <ListItemText
-                      primary={candidate.name}
-                      secondary={`Votos: ${candidate.transients?.votes}`}
-                    />
-                  </Grid>
+  return <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}>
+      <h3>Resultados</h3>
+      <Grid container justifyContent="center" alignItems="center" spacing={2}>
+        <List>
+          {results.map((candidate) => (
+            <ListItem key={candidate.id}>
+              <Grid container alignItems="center" spacing={2}>
+                <Grid item>
+                  <CircularAvatar
+                    src={`/images/${candidate.photoUrl}`}
+                    alt={candidate.name}
+                    percentage={candidate.transients?.percentage}
+                  />
                 </Grid>
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-      </Box>
-    )}
-  </Authenticated>
+                <Grid item>
+                  <ListItemText
+                    primary={candidate.name}
+                    secondary={`Votos: ${candidate.transients?.votes}`}
+                  />
+                </Grid>
+              </Grid>
+            </ListItem>
+          ))}
+        </List>
+      </Grid>
+    </Box>
 }
 
 export default EleicoesMunicipaisPrefeito2024Results

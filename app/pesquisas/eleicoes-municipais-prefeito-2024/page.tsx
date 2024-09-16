@@ -4,8 +4,6 @@ import '@aws-amplify/ui-react/styles.css'
 import { AppAlert, type AppAlertHandle } from '@/components/AppAlert'
 import { dismissAlert, initializeApp, showAlert } from '@/app/utils'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { AuthUser } from 'aws-amplify/auth'
-import { Authenticated } from '@/components/Authenticated'
 import type { Candidate } from '@/src/types'
 import { GpsValidation } from '@/components/GpsValidation'
 import { Loader } from '@/components/Loader'
@@ -13,6 +11,7 @@ import { Poll } from '@/components/Poll'
 import { Schema } from '@/amplify/data/resource'
 import { VoteButton } from '@/components/VoteButton'
 import { generateClient } from 'aws-amplify/data'
+import { getCurrentUser } from 'aws-amplify/auth'
 import { useRouter } from 'next/navigation'
 
 const client = generateClient<Schema>()
@@ -49,8 +48,10 @@ const EleicoesMunicipaisPrefeito2024 = () => {
     }
   }, [initialized, voted, locationValidated, router])
 
-  const handleVote = useCallback((user?: AuthUser) => async () => {
-    if (enableAuth && !user) return
+  const handleVote = useCallback(() => async () => {
+    const { userId } = await getCurrentUser()
+
+    if (enableAuth && !userId) return
     if (voting) return
     if (!selectedCandidateId) return
 
@@ -65,7 +66,7 @@ const EleicoesMunicipaisPrefeito2024 = () => {
       }
 
       const { data: succeed, errors } = await client.mutations.castVote({
-        uniqueId: user?.userId ?? `${Math.random()}`,
+        uniqueId: userId,
         candidateId: candidate.id,
         metadata: JSON.stringify({}),
       })
@@ -110,19 +111,17 @@ const EleicoesMunicipaisPrefeito2024 = () => {
     return [...titularCandidates, ...sortedOptions] as Candidate[]
   }, [candidates])
 
-  return <Authenticated>
-    {({ user }) => (<div>
+  return <div>
       <AppAlert ref={alertRef} />
       {loading && <Loader />}
       {enableGPS && !locationValidated && <GpsValidation onValidationResult={handleGpsValidationResult} />}
       {initialized && (!voted && locationValidated) && (
         <>
           <Poll setSelectedCandidateId={setSelectedCandidateId} candidates={sortedCandidates} />
-          <VoteButton handleVote={handleVote(user)} disabled={loading || voting || !selectedCandidateId || !locationValidated} />
+          <VoteButton handleVote={handleVote()} disabled={loading || voting || !selectedCandidateId || !locationValidated} />
         </>
       )}
-    </div>)}
-  </Authenticated>
+    </div>
 }
 
 export default EleicoesMunicipaisPrefeito2024

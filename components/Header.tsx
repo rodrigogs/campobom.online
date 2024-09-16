@@ -28,17 +28,18 @@ export async function Header() {
         Campo Bom
       </Typography>
       <Typography
-        variant="h5"
+        variant="h4"
         align="center"
+        color="secondary"
         sx={{
           opacity: 0.7,
           marginTop: -2,
           marginBottom: 2,
           fontFamily: 'Roboto',
-          paddingLeft: 16.5,
+          paddingLeft: 20.5,
         }}
       >
-        Depre
+        Online
       </Typography>
 
       {/* {username && (
